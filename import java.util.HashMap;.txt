@@ -1,0 +1,128 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+// Classe que representa um livro
+class Livro {
+    private String titulo;
+    private String autor;
+    private int anoPublicacao;
+
+    public Livro(String titulo, String autor, int anoPublicacao) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.anoPublicacao = anoPublicacao;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public int getAnoPublicacao() {
+        return anoPublicacao;
+    }
+}
+
+// Classe abstrata para Bibliotecas
+abstract class Biblioteca {
+    protected String nome;
+    protected Map<String, Livro> acervo;
+
+    public Biblioteca(String nome) {
+        this.nome = nome;
+        this.acervo = new HashMap<>();
+    }
+
+    public abstract Livro buscarLivro(String titulo);
+
+    public void adicionarLivro(Livro livro) {
+        acervo.put(livro.getTitulo(), livro);
+    }
+}
+
+// Implementacao de Biblioteca Publica
+class BibliotecaPublica extends Biblioteca {
+    public BibliotecaPublica(String nome) {
+        super(nome);
+    }
+
+    @Override
+    public Livro buscarLivro(String titulo) {
+        return acervo.get(titulo);
+    }
+}
+
+// Implementacao de Biblioteca Universitaria
+class BibliotecaUniversitaria extends Biblioteca {
+    public BibliotecaUniversitaria(String nome) {
+        super(nome);
+    }
+
+    @Override
+    public Livro buscarLivro(String titulo) {
+        return acervo.get(titulo);
+    }
+}
+
+// Classe para gerenciar as bibliotecas
+class GerenciadorDeBibliotecas {
+    private List<Biblioteca> bibliotecas;
+
+    public GerenciadorDeBibliotecas() {
+        bibliotecas = new ArrayList<>();
+    }
+
+    public void adicionarBiblioteca(Biblioteca biblioteca) {
+        bibliotecas.add(biblioteca);
+    }
+
+    public Livro buscarLivroEmTodas(String titulo) {
+        for (Biblioteca biblioteca : bibliotecas) {
+            Livro livro = biblioteca.buscarLivro(titulo);
+            if (livro != null) {
+                return livro;
+            }
+        }
+        return null;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        BibliotecaPublica bp = new BibliotecaPublica("Biblioteca Central");
+        bp.adicionarLivro(new Livro("Dom Casmurro", "Machado de Assis", 1899));
+        bp.adicionarLivro(new Livro("O Alquimista", "Paulo Coelho", 1988));
+        bp.adicionarLivro(new Livro("A Menina que Roubava Livros", "Markus Zusak", 2005));
+        bp.adicionarLivro(new Livro("1984", "George Orwell", 1949));
+        
+        BibliotecaUniversitaria bu = new BibliotecaUniversitaria("Biblioteca da UFABC");
+        bu.adicionarLivro(new Livro("Quincas Borba", "Machado de Assis", 1891));
+        bu.adicionarLivro(new Livro("A Arte da Guerra", "Sun Tzu", -500));
+        bu.adicionarLivro(new Livro("Fisica Conceitual", "Paul Hewitt", 1971));
+        bu.adicionarLivro(new Livro("Principios de Bioquimica", "Lehninger", 1970));
+
+        GerenciadorDeBibliotecas gerenciador = new GerenciadorDeBibliotecas();
+        gerenciador.adicionarBiblioteca(bp);
+        gerenciador.adicionarBiblioteca(bu);
+
+        System.out.println("Bem-vindo ao sistema de busca de livros.");
+        System.out.print("Digite o titulo do livro para buscar: ");
+        String titulo = scanner.nextLine();
+
+        Livro livroEncontrado = gerenciador.buscarLivroEmTodas(titulo);
+        if (livroEncontrado != null) {
+            System.out.println("Livro encontrado: " + livroEncontrado.getTitulo() + ", Autor: " + livroEncontrado.getAutor() + ", Ano: " + livroEncontrado.getAnoPublicacao());
+        } else {
+            System.out.println("Livro nao encontrado.");
+        }
+
+        scanner.close();
+    }
+}
