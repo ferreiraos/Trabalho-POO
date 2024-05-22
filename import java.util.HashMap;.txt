@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// Classe que representa um livro
 class Livro {
     private String titulo;
     private String autor;
@@ -29,7 +28,6 @@ class Livro {
     }
 }
 
-// Classe abstrata para Bibliotecas
 abstract class Biblioteca {
     protected String nome;
     protected Map<String, Livro> acervo;
@@ -46,7 +44,7 @@ abstract class Biblioteca {
     }
 }
 
-// Implementacao de Biblioteca Publica
+
 class BibliotecaPublica extends Biblioteca {
     public BibliotecaPublica(String nome) {
         super(nome);
@@ -58,7 +56,6 @@ class BibliotecaPublica extends Biblioteca {
     }
 }
 
-// Implementacao de Biblioteca Universitaria
 class BibliotecaUniversitaria extends Biblioteca {
     public BibliotecaUniversitaria(String nome) {
         super(nome);
@@ -70,7 +67,6 @@ class BibliotecaUniversitaria extends Biblioteca {
     }
 }
 
-// Classe para gerenciar as bibliotecas
 class GerenciadorDeBibliotecas {
     private List<Biblioteca> bibliotecas;
 
@@ -101,7 +97,7 @@ public class Main {
         bp.adicionarLivro(new Livro("O Alquimista", "Paulo Coelho", 1988));
         bp.adicionarLivro(new Livro("A Menina que Roubava Livros", "Markus Zusak", 2005));
         bp.adicionarLivro(new Livro("1984", "George Orwell", 1949));
-        
+
         BibliotecaUniversitaria bu = new BibliotecaUniversitaria("Biblioteca da UFABC");
         bu.adicionarLivro(new Livro("Quincas Borba", "Machado de Assis", 1891));
         bu.adicionarLivro(new Livro("A Arte da Guerra", "Sun Tzu", -500));
